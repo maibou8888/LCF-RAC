@@ -33,6 +33,7 @@
     self.segmentedControl = [[UISegmentedControl alloc] initWithItems:items];
     self.segmentedControl.selectedSegmentIndex = 0;
     
+    //rac_newSelectedSegmentIndexChannelWithNilValue 当接收到nil的时候选择哪个item
     @weakify(self)
     [[self.segmentedControl
     	rac_newSelectedSegmentIndexChannelWithNilValue:@0]
@@ -65,6 +66,7 @@ static void *MRCSegmentedControlItemKey = &MRCSegmentedControlItemKey;
 
 @implementation UIViewController (MRCSegmentedControlItem)
 
+//category使用 objc_setAssociatedObject/objc_getAssociatedObject 实现添加属性
 - (NSString *)segmentedControlItem {
     return objc_getAssociatedObject(self, MRCSegmentedControlItemKey);
 }

@@ -53,6 +53,8 @@
            return @(self.options & MRCReposViewModelOptionsObserveStarredReposChange).boolValue;
         }];
 
+    //如果interval设置时间为3秒,这样我们在3秒过后获取到在这3秒中最后一个信号值,然后执行订阅者的block,每隔3秒执行一次一个定时的东西吧
+    //- (RACSignal *)throttle:(NSTimeInterval)interval;
     RACSignal *keywordSignal = [[RACObserve(self, keyword)
         skip:1]
         throttle:0.25];

@@ -134,6 +134,7 @@
 
     [self.viewModel.requestRemoteDataCommand.executing subscribeNext:^(NSNumber *executing) {
         @strongify(self)
+        //请求数据的时候不显示DZNEmptyDataSetView
         UIView *emptyDataSetView = [self.tableView.subviews.rac_sequence objectPassingTest:^(UIView *view) {
             return [NSStringFromClass(view.class) isEqualToString:@"DZNEmptyDataSetView"];
         }];
