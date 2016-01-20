@@ -63,6 +63,7 @@
     return [self.viewModel.dataSource[indexPath.section][indexPath.row] height];
 }
 
+//滑动当前cell显示按钮
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRCReposItemViewModel *viewModel = self.viewModel.dataSource[indexPath.section][indexPath.row];
 

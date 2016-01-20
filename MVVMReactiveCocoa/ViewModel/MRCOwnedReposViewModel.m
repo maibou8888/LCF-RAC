@@ -32,6 +32,7 @@
     [super initialize];
     
     self.shouldPullToRefresh = YES;
+    //根据图表我的owned options是00010011 这个值与MRCReposViewModelOptionsPagination做与的操作
     self.shouldInfiniteScrolling = self.options & MRCReposViewModelOptionsPagination;
 
     @weakify(self)
@@ -60,6 +61,9 @@
         throttle:0.25];
 
     // Represents the future value
+    //合并中的任何一个signal触发，都会传送到合并后的signal；
+    //当合并的一组signal都发送了完成后，当前signal的发送complete的消息。
+    //也就是说无论starredReposDidChangeSignal 或者 keywordSignal出发了都会进入fetchLocalDataSignal里面
     RACSignal *futureSignal = [starredReposDidChangeSignal merge:keywordSignal];
 
     // The nil as the initial value
@@ -73,17 +77,21 @@
     RACSignal *requestRemoteDataSignal = [[self.requestRemoteDataCommand.executionSignals.switchToLatest
     	doNext:^(NSArray *repositories) {
             @strongify(self)
+            
+            //跟新数据库操作
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 if (self.options & MRCReposViewModelOptionsSaveOrUpdateRepos) {
                     [OCTRepository mrc_saveOrUpdateRepositories:repositories];
                 }
                 if (self.options & MRCReposViewModelOptionsSaveOrUpdateStarredStatus) {
+                    //我的starred入口（入口为Homepage）00110111
                     [OCTRepository mrc_saveOrUpdateStarredStatusWithRepositories:repositories];
                 }
             });
         }]
         map:^(NSArray *repositories) {
         	@strongify(self)
+            //是否有索引  有索引则排序
         	if (self.options & MRCReposViewModelOptionsSectionIndex) {
             	repositories = [repositories sortedArrayUsingComparator:^NSComparisonResult(OCTRepository *repo1, OCTRepository *repo2) {
                 	return [repo1.name caseInsensitiveCompare:repo2.name];
@@ -92,6 +100,8 @@
             return repositories;
         }];
     
+    //1、数据源 dataSource 依赖于仓库列表 repositories
+    //2、仓库列表 repositories 依赖于查询本地和请求远程
     RAC(self, repositories) = [fetchLocalDataSignal merge:requestRemoteDataSignal];
     
     RAC(self, dataSource) = [[[RACObserve(self, repositories)
@@ -116,6 +126,7 @@
     return MRCReposViewModelTypeOwned;
 }
 
+//00010011
 - (MRCReposViewModelOptions)options {
     MRCReposViewModelOptions options = 0;
     

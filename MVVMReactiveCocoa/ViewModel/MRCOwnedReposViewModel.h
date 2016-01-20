@@ -17,13 +17,13 @@ typedef NS_ENUM(NSUInteger, MRCReposViewModelType) {
 };
 
 typedef NS_OPTIONS(NSUInteger, MRCReposViewModelOptions) {
-    MRCReposViewModelOptionsObserveStarredReposChange = 1 << 0,
-    MRCReposViewModelOptionsSaveOrUpdateRepos         = 1 << 1,
-    MRCReposViewModelOptionsSaveOrUpdateStarredStatus = 1 << 2,
-    MRCReposViewModelOptionsPagination                = 1 << 3,
-    MRCReposViewModelOptionsSectionIndex              = 1 << 4,
-    MRCReposViewModelOptionsShowOwnerLogin            = 1 << 5,
-    MRCReposViewModelOptionsMarkStarredStatus         = 1 << 6,
+    MRCReposViewModelOptionsObserveStarredReposChange = 1 << 0,     //监听star关系变化
+    MRCReposViewModelOptionsSaveOrUpdateRepos         = 1 << 1,     //是否入库实体 是否缓存
+    MRCReposViewModelOptionsSaveOrUpdateStarredStatus = 1 << 2,     //是否更新关系表
+    MRCReposViewModelOptionsPagination                = 1 << 3,     //是否分页 上拉加载
+    MRCReposViewModelOptionsSectionIndex              = 1 << 4,     //是否有索引
+    MRCReposViewModelOptionsShowOwnerLogin            = 1 << 5,     //显示OwnerLogin
+    MRCReposViewModelOptionsMarkStarredStatus         = 1 << 6,     //标记StarredStatus
 };
 
 @interface MRCOwnedReposViewModel : MRCTableViewModel
