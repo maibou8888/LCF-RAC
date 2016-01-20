@@ -160,6 +160,7 @@
             return repository.name.firstLetter;
         }].array;
         
+        //排序 否则为乱序
         return [[NSSet setWithArray:firstLetters].rac_sequence.array sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
     }
     
