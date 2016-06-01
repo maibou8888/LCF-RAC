@@ -82,6 +82,7 @@
     
     //switchToLatest 自动匹配到最后一个
     //executionSignals是signal of signals，如果直接subscribe的话会得到一个signal，而不是我们想要的value，所以一般会配合switchToLatest。
+    //switchToLatest: 的作用是自动切换signal of signals到最后一个，比如之前的command.executionSignals就可以使用switchToLatest。
     RAC(self, events) = [self.requestRemoteDataCommand.executionSignals.switchToLatest startWith:self.fetchLocalData];
 }
 

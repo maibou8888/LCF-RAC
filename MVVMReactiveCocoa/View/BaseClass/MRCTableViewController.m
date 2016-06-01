@@ -54,7 +54,7 @@
     
     //contentOffset是scrollview当前显示区域顶点相对于frame顶点的偏移量，比如上个例子你拉到最下面，contentoffset就是(0 ,480)，也就是y偏移了480
     self.tableView.contentOffset = CGPointMake(0, self.searchBar.mrc_height - self.contentInset.top);
-    
+
     //contentInset是scrollview的contentview的顶点相对于scrollview的位置，例如你的contentInset = (0 ,100)，那么你的contentview就是从scrollview的(0 ,100)开始显示
     self.tableView.contentInset  = self.contentInset;
     
@@ -111,6 +111,8 @@
                 for (NSArray *array in dataSource) {
                     count += array.count;
                 }
+                
+//                NSLog(@"%lu %lu",(unsigned long)count,(unsigned long)self.viewModel.perPage);
                 return @(count >= self.viewModel.perPage);
         }];
     }
